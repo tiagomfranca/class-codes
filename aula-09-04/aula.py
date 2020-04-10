@@ -16,7 +16,7 @@ img_gray = np.mean(imagem_color_arr, axis=2)
 
 st.text(img_gray.shape)
 
-tons = st.slider('Tons', 0, 25, 4)
+tons = st.slider('Tons', 1, 25, 4)
 
 st.text(tons)
 
