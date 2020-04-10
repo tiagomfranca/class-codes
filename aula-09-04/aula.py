@@ -16,21 +16,25 @@ img_gray = np.mean(imagem_color_arr, axis=2)
 
 st.text(img_gray.shape)
 
-limiar = st.slider('Limiar?', 0, 255, 25)
+tons = st.slider('Tons', 0, 25, 4)
 
-st.text(limiar)
+st.text(tons)
 
 img_gray = np.mean(imagem_color_arr, axis=2)
 
-# img_gray[img_gray != limiar] = 255
-img_gray[0 < img_gray and img_gray < 64]  = 0
-img_gray[64 < img_gray and img_gray < 128]  = 64
-img_gray[128 < img_gray and img_gray < 192]  = 128
-img_gray[img_gray > 192]  = 192
-# img_gray[img_gray < limiar] = 191
-# img_gray[img_gray > limiar] = 127
-# img_gray[img_gray > limiar] = 64
-# img_gray[img_gray < limiar] = 0
+incremento = int(255/tons)
+limite_inferior = 0
+limite_superior = incremento
+
+for parte in range(0, int(255/tons)):
+    img_gray[np.logical_and(limite_inferior < img_gray, img_gray < limite_superior)]  = limite_inferior
+    limite_inferior = limite_superior
+    limite_superior += incremento
+
+#img_gray[np.logical_and(0 < img_gray, img_gray < 64)]  = 0
+#img_gray[np.logical_and(64 < img_gray, img_gray < 128)]  = 64
+#img_gray[np.logical_and(128 < img_gray, img_gray < 192)]  = 128
+#img_gray[img_gray > 192]  = 192
 
 new_image = Image.fromarray(img_gray)
 
